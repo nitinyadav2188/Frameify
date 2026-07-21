@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* 
+  Custom frame styles 
+*/
+
+.frame-container {
+  /* Common reset */
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+}
+
+/* 
+  Stamp Border
+  Creates a perforated edge effect using multiple radial gradients in a mask.
+*/
+.frame-stamp {
+  --hole-size: 6px;
+  --spacing: 20px;
+  mask-image: 
+    radial-gradient(circle at var(--hole-size) var(--hole-size), transparent calc(var(--hole-size) - 0.5px), black var(--hole-size)),
+    linear-gradient(black, black);
+  mask-size: var(--spacing) var(--spacing), 100% 100%;
+  mask-position: calc(var(--hole-size) * -1) calc(var(--hole-size) * -1), center;
+  mask-repeat: round, no-repeat;
+  mask-composite: exclude;
+  /* fallback for older browsers */
+  -webkit-mask-composite: xor;
+}
+
+/* 
+  Scalloped Border
+  Inverted stamp - bulging circles on the edges
+*/
+.frame-scalloped {
+  --hole-size: 6px;
+  --spacing: 20px;
+  /* A simpler approach: use radial gradients as the background instead of mask */
+  mask-image: 
+    radial-gradient(circle at center, black calc(var(--hole-size) - 0.5px), transparent var(--hole-size)),
+    linear-gradient(black, black);
+  mask-size: var(--spacing) var(--spacing), 100% 100%;
+  mask-position: center, center;
+  mask-repeat: round, no-repeat;
+  mask-composite: add;
+  -webkit-mask-composite: source-over;
+}
+
+/* 
+  Film Strip Border
+  Uses linear gradients to create rectangular holes on the top and bottom edges.
+*/
+.frame-film {
+  --hole-width: 8px;
+  --hole-height: 12px;
+  --spacing: 24px;
+  --edge-padding: 10px;
+  
+  /* Mask out rectangles on left and right for vertical, top and bottom for horizontal. Let's stick to top/bottom for simplicity */
+  mask-image: 
+    linear-gradient(90deg, transparent var(--hole-width), black var(--hole-width), black var(--spacing)),
+    linear-gradient(black, black);
+  mask-size: var(--spacing) 100%, 100% 100%;
+  /* Actually, to make it work on all 4 sides is complex. We'll use CSS multiple backgrounds instead of masks for film. */
+}
