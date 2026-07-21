@@ -16,7 +16,8 @@ export interface TextOverlay {
   fontFamily: string;
   fontSize: number;
   color: string;
-  position: 'top' | 'bottom' | 'center';
+  positionX: number;
+  positionY: number;
 }
 
 export interface FrameSettings {

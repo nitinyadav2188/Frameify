@@ -111,15 +111,6 @@ export function FrameCanvas({ image, settings, isExporting }: Props) {
         } as CSSProperties}
       >
         <div style={innerContainerStyles} className="z-10">
-          {settings.textOverlay?.enabled && settings.textOverlay.position === 'top' && (
-            <div 
-              className={cn("w-full text-center leading-tight mb-4", settings.textOverlay.fontFamily)} 
-              style={{ fontSize: `${settings.textOverlay.fontSize}px`, color: settings.textOverlay.color }}
-            >
-              {settings.textOverlay.text}
-            </div>
-          )}
-          
           <img 
             src={image} 
             alt="Framed output" 
@@ -131,19 +122,17 @@ export function FrameCanvas({ image, settings, isExporting }: Props) {
             }}
           />
 
-          {settings.textOverlay?.enabled && settings.textOverlay.position === 'center' && (
+          {settings.textOverlay?.enabled && (
             <div 
-              className={cn("absolute inset-0 flex items-center justify-center pointer-events-none z-20 text-center leading-tight p-4", settings.textOverlay.fontFamily)} 
-              style={{ fontSize: `${settings.textOverlay.fontSize}px`, color: settings.textOverlay.color }}
-            >
-              {settings.textOverlay.text}
-            </div>
-          )}
-
-          {settings.textOverlay?.enabled && settings.textOverlay.position === 'bottom' && (
-            <div 
-              className={cn("w-full text-center leading-tight mt-4", settings.textOverlay.fontFamily)} 
-              style={{ fontSize: `${settings.textOverlay.fontSize}px`, color: settings.textOverlay.color }}
+              className={cn("absolute whitespace-pre-wrap text-center leading-tight z-20 pointer-events-none p-4", settings.textOverlay.fontFamily)} 
+              style={{ 
+                fontSize: `${settings.textOverlay.fontSize}px`, 
+                color: settings.textOverlay.color,
+                left: `${settings.textOverlay.positionX}%`,
+                top: `${settings.textOverlay.positionY}%`,
+                transform: 'translate(-50%, -50%)',
+                width: '100%'
+              }}
             >
               {settings.textOverlay.text}
             </div>

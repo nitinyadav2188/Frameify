@@ -10,11 +10,12 @@ interface HomeProps {
 }
 
 const DEFAULT_SETTINGS: FrameSettings = {
-  borderStyle: 'solid',
+  borderStyle: 'polaroid',
   borderColor: '#ffffff',
   borderWidth: 20,
   borderRadius: 0,
   backgroundType: 'white',
+  customBackgroundColor: '#000000',
   padding: 10,
   shadow: true,
   shadowIntensity: 20,
@@ -24,7 +25,7 @@ const DEFAULT_SETTINGS: FrameSettings = {
     fontFamily: 'font-sans',
     fontSize: 24,
     color: '#000000',
-    position: 'bottom',
+    positionX: 50, positionY: 90,
   },
 };
 
@@ -47,7 +48,7 @@ const PRESETS = [
         fontFamily: 'font-[cursive]',
         fontSize: 48,
         color: '#475569',
-        position: 'bottom' as const,
+        positionX: 50, positionY: 90,
       }
     }
   },
@@ -69,7 +70,7 @@ const PRESETS = [
         fontFamily: 'font-[Impact,sans-serif]',
         fontSize: 32,
         color: '#94a3b8',
-        position: 'top' as const,
+        positionX: 50, positionY: 10,
       }
     }
   },
@@ -91,7 +92,7 @@ const PRESETS = [
         fontFamily: 'font-mono',
         fontSize: 24,
         color: '#facc15',
-        position: 'bottom' as const,
+        positionX: 50, positionY: 90,
       }
     }
   },
@@ -113,7 +114,7 @@ const PRESETS = [
         fontFamily: 'font-[Impact,sans-serif]',
         fontSize: 64,
         color: '#ffffff',
-        position: 'center' as const,
+        positionX: 50, positionY: 50,
       }
     }
   },
@@ -135,7 +136,7 @@ const PRESETS = [
         fontFamily: 'font-serif',
         fontSize: 28,
         color: '#1e293b',
-        position: 'bottom' as const,
+        positionX: 50, positionY: 90,
       }
     }
   }
@@ -239,7 +240,7 @@ export function Home({ onImageUpload }: HomeProps) {
                       <FrameCanvas 
                         image={preset.url} 
                         settings={{ ...DEFAULT_SETTINGS, ...preset.preset } as FrameSettings} 
-                        zoom={1}
+                        isExporting={false}
                       />
                     </div>
                   </div>

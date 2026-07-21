@@ -16,12 +16,6 @@ const FONTS = [
   { label: 'Display', value: 'font-[Impact,sans-serif]' },
 ];
 
-const POSITIONS = [
-  { label: 'Top', value: 'top' },
-  { label: 'Center', value: 'center' },
-  { label: 'Bottom', value: 'bottom' },
-];
-
 export function TextOverlayControls({ overlay, onChange }: TextOverlayControlsProps) {
   const updateField = <K extends keyof TextOverlay>(key: K, value: TextOverlay[K]) => {
     onChange({ ...overlay, [key]: value });
@@ -50,7 +44,7 @@ export function TextOverlayControls({ overlay, onChange }: TextOverlayControlsPr
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <div>
               <label className="text-[13px] text-slate-700 mb-1.5 block font-medium">Font Family</label>
               <select 
@@ -63,19 +57,23 @@ export function TextOverlayControls({ overlay, onChange }: TextOverlayControlsPr
                 ))}
               </select>
             </div>
-            <div>
-              <label className="text-[13px] text-slate-700 mb-1.5 block font-medium">Position</label>
-              <select 
-                value={overlay.position}
-                onChange={(e) => updateField('position', e.target.value as any)}
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-              >
-                {POSITIONS.map(p => (
-                  <option key={p.value} value={p.value}>{p.label}</option>
-                ))}
-              </select>
-            </div>
           </div>
+
+          <SliderControl 
+            label="Horizontal Position"
+            value={overlay.positionX}
+            min={0}
+            max={100}
+            onChange={(v) => updateField('positionX', v)}
+          />
+
+          <SliderControl 
+            label="Vertical Position"
+            value={overlay.positionY}
+            min={0}
+            max={100}
+            onChange={(v) => updateField('positionY', v)}
+          />
 
           <SliderControl 
             label="Font Size"

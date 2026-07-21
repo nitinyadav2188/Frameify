@@ -29,7 +29,8 @@ export default function App() {
       fontFamily: 'font-sans',
       fontSize: 24,
       color: '#000000',
-      position: 'bottom',
+      positionX: 50,
+      positionY: 90,
     },
   });
 
