@@ -230,6 +230,31 @@ export function Home({ onImagesUpload }: HomeProps) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full mt-24 max-w-4xl"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <div className="flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-900 font-bold font-display">1</div>
+              <h3 className="text-xl font-semibold text-zinc-900">Upload Images</h3>
+              <p className="text-zinc-500 font-light leading-relaxed">Drag and drop your photos into the dropzone above, or click to select them from your device. You can upload multiple images at once.</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-900 font-bold font-display">2</div>
+              <h3 className="text-xl font-semibold text-zinc-900">Customize Style</h3>
+              <p className="text-zinc-500 font-light leading-relaxed">Choose from pre-made templates or manually adjust borders, padding, colors, shadows, and image filters to get the exact look you want.</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-900 font-bold font-display">3</div>
+              <h3 className="text-xl font-semibold text-zinc-900">Export & Share</h3>
+              <p className="text-zinc-500 font-light leading-relaxed">Download your perfectly framed high-resolution image to your device instantly, with no watermarks.</p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="w-full mt-32"
         >
@@ -252,11 +277,12 @@ export function Home({ onImagesUpload }: HomeProps) {
               >
                 <div className="relative w-full aspect-square flex items-center justify-center bg-zinc-50 rounded-2xl overflow-hidden transition-colors group-hover:bg-zinc-100">
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="scale-[0.4] origin-center transition-all duration-500 group-hover:scale-[0.45] group-hover:rotate-1 shadow-2xl">
+                    <div className="scale-75 origin-center transition-all duration-500 group-hover:scale-90 group-hover:rotate-1 shadow-2xl">
                       <FrameCanvas 
                         images={[preset.url]} 
                         settings={{ ...DEFAULT_SETTINGS, ...preset.preset } as FrameSettings} 
                         isExporting={false}
+                        isPreview={true}
                       />
                     </div>
                   </div>

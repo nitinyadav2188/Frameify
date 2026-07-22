@@ -7,9 +7,10 @@ interface Props {
   images?: string[];
   settings: FrameSettings;
   isExporting: boolean;
+  isPreview?: boolean;
 }
 
-export function FrameCanvas({ image, images, settings, isExporting }: Props) {
+export function FrameCanvas({ image, images, settings, isExporting, isPreview = false }: Props) {
   const imageList = images || (image ? [image] : []);
   const borderWidth = settings.frameWidth || 20;
 
@@ -139,7 +140,10 @@ export function FrameCanvas({ image, images, settings, isExporting }: Props) {
             <img 
               src={imgSrc} 
               alt="Framed output" 
-              className="max-w-[70vw] max-h-[70vh] object-contain relative z-10"
+              className={cn(
+                "object-contain relative z-10",
+                isPreview ? "max-w-[250px] max-h-[250px]" : "max-w-[70vw] max-h-[70vh]"
+              )}
               style={{
                 borderRadius: settings.borderStyle === 'glass' || settings.borderStyle === 'neon' ? '6px' : '0px',
                 filter: `
