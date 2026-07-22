@@ -9,11 +9,20 @@ interface TextOverlayControlsProps {
 }
 
 const FONTS = [
-  { label: 'Sans Serif', value: 'font-sans' },
-  { label: 'Serif', value: 'font-serif' },
+  { label: 'System Sans', value: 'font-sans' },
+  { label: 'System Serif', value: 'font-serif' },
   { label: 'Monospace', value: 'font-mono' },
-  { label: 'Cursive', value: 'font-[cursive]' },
-  { label: 'Display', value: 'font-[Impact,sans-serif]' },
+  { label: 'Inter', value: 'font-[Inter,sans-serif]' },
+  { label: 'Montserrat', value: 'font-[Montserrat,sans-serif]' },
+  { label: 'Oswald', value: 'font-[Oswald,sans-serif]' },
+  { label: 'Bebas Neue', value: 'font-[Bebas\\ Neue,sans-serif]' },
+  { label: 'Anton', value: 'font-[Anton,sans-serif]' },
+  { label: 'Playfair Display', value: 'font-[Playfair\\ Display,serif]' },
+  { label: 'Cinzel', value: 'font-[Cinzel,serif]' },
+  { label: 'Lobster', value: 'font-[Lobster,cursive]' },
+  { label: 'Dancing Script', value: 'font-[Dancing\\ Script,cursive]' },
+  { label: 'Great Vibes', value: 'font-[Great\\ Vibes,cursive]' },
+  { label: 'Impact / Display', value: 'font-[Impact,sans-serif]' },
 ];
 
 export function TextOverlayControls({ overlay, onChange }: TextOverlayControlsProps) {

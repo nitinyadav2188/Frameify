@@ -10,19 +10,18 @@ import { ImageCropper } from './components/ImageCropper';
 import { FrameSettings } from './types';
 
 export default function App() {
-  const [image, setImage] = useState<string | null>(null);
-  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const [images, setImages] = useState<string[]>([]);
   
   const [settings, setSettings] = useState<FrameSettings>({
     borderStyle: 'stamp',
     borderColor: '#ffffff',
-    borderWidth: 20,
-    borderRadius: 0,
+    frameWidth: 24,
+    framePadding: 2,
+    frameRadius: 2,
+    shadowIntensity: 20,
     backgroundType: 'transparent',
     customBackgroundColor: '#f0f0f0',
-    padding: 10,
-    shadow: true,
-    shadowIntensity: 20,
+    backgroundPattern: 'dots',
     textOverlay: {
       enabled: false,
       text: '',
@@ -35,12 +34,11 @@ export default function App() {
   });
 
   const handleClose = () => {
-    setImage(null);
-    setCroppedImage(null);
+    setImages([]);
   };
 
-  const handleImageUpload = (img: string, preset?: Partial<FrameSettings>) => {
-    setImage(img);
+  const handleImagesUpload = (imgs: string[], preset?: Partial<FrameSettings>) => {
+    setImages(imgs);
     if (preset) {
       setSettings(prev => ({ 
         ...prev, 
@@ -52,17 +50,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900">
-      {!image ? (
-        <Home onImageUpload={handleImageUpload} />
-      ) : !croppedImage ? (
-        <ImageCropper 
-          image={image} 
-          onCropComplete={setCroppedImage} 
-          onCancel={handleClose} 
-        />
+      {images.length === 0 ? (
+        <Home onImagesUpload={handleImagesUpload} />
       ) : (
         <Editor 
-          image={croppedImage} 
+          images={images} 
           onClose={handleClose} 
           settings={settings}
           setSettings={setSettings}

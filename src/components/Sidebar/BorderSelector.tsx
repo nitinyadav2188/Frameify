@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { BorderStyle } from '../../types';
 import { cn } from '../../utils/cn';
-import { Square, Ticket, Film, CircleDashed, LayoutTemplate, Diamond, LayoutPanelTop } from 'lucide-react';
+import { Square, Ticket, Film, LayoutPanelTop, Layers, Zap, PenTool, SplitSquareHorizontal } from 'lucide-react';
 import { Tooltip } from '../Tooltip';
 
 interface Props {
@@ -10,14 +10,14 @@ interface Props {
 }
 
 const styles: { value: BorderStyle; label: string; description: string; icon: ReactNode }[] = [
-  { value: 'stamp', label: 'Stamp', description: 'Perforated postage stamp edges', icon: <Ticket className="w-4 h-4 transform rotate-45" /> },
-  { value: 'vintage', label: 'Vintage', description: 'Classic jagged stamp edge', icon: <Ticket className="w-4 h-4" /> },
-  { value: 'film', label: 'Film Strip', description: 'Cinema film strip borders', icon: <Film className="w-4 h-4" /> },
-  { value: 'rounded', label: 'Rounded', description: 'Smooth rounded corners', icon: <Square className="w-4 h-4 rounded-lg" /> },
-  { value: 'classic', label: 'Classic', description: 'Simple square frame', icon: <Square className="w-4 h-4" /> },
-  { value: 'dotted', label: 'Dotted', description: 'Dashed stitch-like border', icon: <CircleDashed className="w-4 h-4" /> },
-  { value: 'scalloped', label: 'Scalloped', description: 'Inverted wavy edges', icon: <Diamond className="w-4 h-4" /> },
   { value: 'polaroid', label: 'Polaroid', description: 'Instant camera style frame', icon: <LayoutPanelTop className="w-4 h-4" /> },
+  { value: 'film', label: 'Film Strip', description: 'Cinema film strip borders', icon: <Film className="w-4 h-4" /> },
+  { value: 'museum', label: 'Museum', description: 'Double matte fine art frame', icon: <Layers className="w-4 h-4" /> },
+  { value: 'glass', label: 'Glass', description: 'Frosted glassmorphism effect', icon: <Square className="w-4 h-4 opacity-50" /> },
+  { value: 'neon', label: 'Neon Glow', description: 'Cyberpunk neon border', icon: <Zap className="w-4 h-4" /> },
+  { value: 'brutalist', label: 'Brutalist', description: 'Harsh lines and offset shadow', icon: <SplitSquareHorizontal className="w-4 h-4" /> },
+  { value: 'stamp', label: 'Stamp', description: 'Perforated postage stamp', icon: <Ticket className="w-4 h-4" /> },
+  { value: 'torn', label: 'Torn Edge', description: 'Ripped paper aesthetic', icon: <PenTool className="w-4 h-4" /> },
 ];
 
 export function BorderSelector({ value, onChange }: Props) {

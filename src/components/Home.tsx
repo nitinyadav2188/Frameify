@@ -1,24 +1,25 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { ImagePlus, Sparkles, Check, Smartphone } from 'lucide-react';
+import { ImagePlus, Sparkles, Check, ArrowRight } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { FrameSettings } from '../types';
 import { FrameCanvas } from './FrameCanvas';
+import { motion } from 'motion/react';
 
 interface HomeProps {
-  onImageUpload: (image: string, preset?: Partial<FrameSettings>) => void;
+  onImagesUpload: (images: string[], preset?: Partial<FrameSettings>) => void;
 }
 
 const DEFAULT_SETTINGS: FrameSettings = {
   borderStyle: 'polaroid',
   borderColor: '#ffffff',
-  borderWidth: 20,
-  borderRadius: 0,
+  frameWidth: 24,
+  framePadding: 2,
+  frameRadius: 2,
+  shadowIntensity: 20,
   backgroundType: 'white',
   customBackgroundColor: '#000000',
-  padding: 10,
-  shadow: true,
-  shadowIntensity: 20,
+  backgroundPattern: 'dots',
   textOverlay: {
     enabled: false,
     text: '',
@@ -27,134 +28,117 @@ const DEFAULT_SETTINGS: FrameSettings = {
     color: '#000000',
     positionX: 50, positionY: 90,
   },
+  imageBrightness: 100,
+  imageContrast: 100,
+  imageSaturation: 100,
+  imageBlur: 0,
+  imageSepia: 0,
+  imageGrayscale: 0,
 };
 
 const PRESETS = [
   {
     name: "Classic Polaroid",
-    url: "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?auto=format&fit=crop&w=400&q=80",
+    url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
     preset: {
       borderStyle: 'polaroid' as const,
       borderColor: '#ffffff',
-      borderWidth: 16,
-      borderRadius: 0,
-      padding: 0,
-      backgroundType: 'transparent' as const,
-      shadow: true,
+      frameWidth: 24,
+      framePadding: 2,
+      frameRadius: 2,
       shadowIntensity: 25,
-      textOverlay: {
-        enabled: true,
-        text: 'Summer Vibes',
-        fontFamily: 'font-[cursive]',
-        fontSize: 48,
-        color: '#475569',
-        positionX: 50, positionY: 90,
-      }
-    }
-  },
-  {
-    name: "Airmail Stamp",
-    url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80",
-    preset: {
-      borderStyle: 'stamp' as const,
-      borderColor: '#fdfbf7',
-      borderWidth: 24,
-      borderRadius: 0,
-      padding: 10,
       backgroundType: 'transparent' as const,
-      shadow: true,
-      shadowIntensity: 20,
       textOverlay: {
         enabled: true,
-        text: 'POSTAGE ¢5',
-        fontFamily: 'font-[Impact,sans-serif]',
+        text: 'PORTRAIT',
+        fontFamily: 'font-[cursive]',
         fontSize: 32,
-        color: '#94a3b8',
-        positionX: 50, positionY: 10,
+        color: '#18181b',
+        positionX: 50, positionY: 92,
       }
     }
   },
   {
-    name: "Cinema Reel",
-    url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80",
+    name: "Cinematic Film",
+    url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=80",
     preset: {
       borderStyle: 'film' as const,
       borderColor: '#111111',
-      borderWidth: 32,
-      borderRadius: 0,
-      padding: 8,
+      frameWidth: 32,
+      framePadding: 4,
+      frameRadius: 0,
+      shadowIntensity: 50,
       backgroundType: 'transparent' as const,
-      shadow: true,
-      shadowIntensity: 40,
       textOverlay: {
         enabled: true,
-        text: 'SCENE I - TAKE 3',
+        text: 'KODAK PORTRA 400',
         fontFamily: 'font-mono',
-        fontSize: 24,
+        fontSize: 16,
         color: '#facc15',
-        positionX: 50, positionY: 90,
+        positionX: 50, positionY: 94,
       }
     }
   },
   {
-    name: "Modern Pop",
-    url: "https://images.unsplash.com/photo-1552083375-1447ce886485?auto=format&fit=crop&w=400&q=80",
+    name: "Gallery Museum",
+    url: "https://images.unsplash.com/photo-1518382473007-8e6f7dfa74d2?auto=format&fit=crop&w=600&q=80",
     preset: {
-      borderStyle: 'rounded' as const,
-      borderColor: '#2563eb',
-      borderWidth: 16,
-      borderRadius: 24,
-      padding: 8,
+      borderStyle: 'museum' as const,
+      borderColor: '#ffffff',
+      frameWidth: 48,
+      framePadding: 0,
+      frameRadius: 0,
+      shadowIntensity: 30,
       backgroundType: 'transparent' as const,
-      shadow: true,
-      shadowIntensity: 15,
       textOverlay: {
-        enabled: true,
-        text: 'POP ART',
-        fontFamily: 'font-[Impact,sans-serif]',
-        fontSize: 64,
-        color: '#ffffff',
+        enabled: false,
+        text: '',
+        fontFamily: 'font-sans',
+        fontSize: 24,
+        color: '#000000',
         positionX: 50, positionY: 50,
       }
     }
   },
   {
-    name: "Gallery Frame",
-    url: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=400&q=80",
+    name: "Neo Brutalism",
+    url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
     preset: {
-      borderStyle: 'classic' as const,
-      borderColor: '#1e293b',
-      borderWidth: 24,
-      borderRadius: 0,
-      padding: 8,
-      backgroundType: 'transparent' as const,
-      shadow: true,
-      shadowIntensity: 40,
+      borderStyle: 'brutalist' as const,
+      borderColor: '#ffffff',
+      frameWidth: 24,
+      framePadding: 0,
+      frameRadius: 0,
+      shadowIntensity: 0,
+      backgroundType: 'white' as const,
       textOverlay: {
         enabled: true,
-        text: 'EXHIBIT A',
-        fontFamily: 'font-serif',
-        fontSize: 28,
-        color: '#1e293b',
-        positionX: 50, positionY: 90,
+        text: 'VOL. 01',
+        fontFamily: 'font-[Impact,sans-serif]',
+        fontSize: 48,
+        color: '#000000',
+        positionX: 50, positionY: 50,
       }
     }
   }
 ];
 
-export function Home({ onImageUpload }: HomeProps) {
+export function Home({ onImagesUpload }: HomeProps) {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
-      const file = acceptedFiles[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          onImageUpload(e.target.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
+      Promise.all(acceptedFiles.map(file => {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            if (e.target?.result) resolve(e.target.result as string);
+          };
+          reader.readAsDataURL(file);
+        });
+      })).then(images => {
+         onImagesUpload(images);
+      });
     }
-  }, [onImageUpload]);
+  }, [onImagesUpload]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -163,115 +147,151 @@ export function Home({ onImageUpload }: HomeProps) {
       'image/png': ['.png'],
       'image/webp': ['.webp'],
     },
-    maxFiles: 1,
+    maxFiles: 10,
   } as any);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="py-6 px-8 flex items-center justify-between bg-white border-b border-slate-200">
-        <div className="flex items-center gap-2 text-blue-600">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span className="font-bold text-xl tracking-tight text-blue-600 font-display">Photo Stamp</span>
-          <span className="text-[10px] uppercase px-1.5 py-0.5 bg-blue-100 text-blue-800 rounded font-semibold tracking-wide ml-1">Beta</span>
+    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-zinc-900 selection:bg-zinc-200">
+      <header className="py-6 px-8 flex items-center justify-between border-b border-zinc-200/60 bg-white/50 backdrop-blur-md sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-zinc-900 rounded flex items-center justify-center text-white">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+          <span className="font-semibold text-lg tracking-tight font-display">Frameify</span>
+        </div>
+        <div className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-500">
+          <span className="hover:text-zinc-900 transition-colors cursor-pointer">Templates</span>
+          <span className="hover:text-zinc-900 transition-colors cursor-pointer">Features</span>
+          <span className="hover:text-zinc-900 transition-colors cursor-pointer">Pro</span>
         </div>
       </header>
 
-      <main className="flex-grow flex flex-col items-center justify-center p-6 text-center max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
-          <Sparkles className="w-4 h-4" />
-          Free & No Signup Required
-        </div>
+      <motion.main 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="flex-grow flex flex-col items-center pt-24 pb-32 px-6 text-center max-w-5xl mx-auto w-full"
+      >
+        <motion.div 
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-800 text-xs font-medium mb-8 border border-zinc-200"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Professional-grade framing tools, right in your browser.</span>
+        </motion.div>
         
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight font-display">
-          Convert Photos into Beautiful <span className="text-blue-600">Stamp Frames</span>
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-zinc-900 mb-6 leading-[1.1] font-display max-w-4xl">
+          Elevate your photos with <br className="hidden md:block"/>
+          <span className="text-zinc-400">studio-quality frames.</span>
         </h1>
         
-        <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl">
-          Upload any image and turn it into a customizable stamp-style frame in seconds. Works completely in your browser.
+        <p className="text-lg md:text-xl text-zinc-500 mb-12 max-w-2xl font-light">
+          Upload any image and apply cinematic film borders, classic polaroid mounts, and gallery-ready mats in seconds.
         </p>
 
-        <div 
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           {...getRootProps()} 
           className={cn(
-            "w-full max-w-xl p-10 md:p-16 border-3 border-dashed rounded-3xl cursor-pointer transition-all duration-200 ease-in-out group focus:outline-none focus:ring-4 focus:ring-blue-500/20",
+            "w-full max-w-2xl p-12 md:p-20 border-[1.5px] border-dashed rounded-3xl cursor-pointer transition-all duration-300 ease-out group relative overflow-hidden bg-white",
             isDragActive 
-              ? "border-blue-500 bg-blue-50" 
-              : "border-slate-300 bg-white hover:border-blue-400 hover:bg-slate-50"
+              ? "border-zinc-900 bg-zinc-50 shadow-2xl scale-[1.02]" 
+              : "border-zinc-300 hover:border-zinc-900 hover:shadow-xl hover:-translate-y-1"
           )}
         >
           <input {...getInputProps()} />
-          <div className="flex flex-col items-center justify-center gap-4">
-            <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform relative">
-              <ImagePlus className="w-8 h-8" />
+          <div className="flex flex-col items-center justify-center gap-5 relative z-10">
+            <div className="w-16 h-16 bg-zinc-900 text-white rounded-2xl flex items-center justify-center group-hover:rotate-6 transition-transform duration-300 shadow-lg">
+              <ImagePlus className="w-7 h-7" />
             </div>
             <div className="space-y-1">
-              <p className="text-xl font-semibold text-slate-900">
-                {isDragActive ? "Drop your photo here" : "Upload a Photo"}
+              <p className="text-2xl font-semibold tracking-tight text-zinc-900">
+                {isDragActive ? "Drop image to begin" : "Start Framing"}
               </p>
-              <p className="text-slate-500 text-sm">
-                Drag & drop or click to browse
+              <p className="text-zinc-500 text-base font-light">
+                Drag & drop or click to upload
               </p>
             </div>
-            <p className="text-xs text-slate-400 mt-2 font-medium">
-              Supports JPG, PNG, WEBP
+            <p className="text-xs text-zinc-400 mt-2 font-medium tracking-wide uppercase">
+              Supports high-res JPG, PNG, WEBP
             </p>
           </div>
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-50/0 to-zinc-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        </motion.div>
 
-        <div className="w-full mt-16 max-w-5xl">
-          <div className="flex flex-col items-center mb-8">
-            <h2 className="text-2xl font-bold text-slate-900 font-display">Inspiration Gallery</h2>
-            <p className="text-slate-500 text-sm mt-1">Check out these example frame styles</p>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full mt-32"
+        >
+          <div className="flex flex-col items-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight text-zinc-900 font-display">Featured Styles</h2>
+            <p className="text-zinc-500 mt-3 font-light text-lg">Click any style to start creating</p>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {PRESETS.map((preset, idx) => (
-              <div
+              <motion.div
                 key={idx}
-                className="group flex flex-col items-center gap-4 rounded-2xl p-4 transition-colors hover:bg-white hover:shadow-lg border border-transparent hover:border-slate-100 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(20%-1.2rem)] min-w-[150px]"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.7 + idx * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="group flex flex-col gap-4 rounded-3xl p-5 bg-white border border-zinc-200 hover:border-zinc-400 transition-all duration-300 hover:shadow-xl cursor-pointer text-left"
+                onClick={() => {
+                  onImagesUpload([preset.url], preset.preset);
+                }}
               >
-                <div className="relative w-full aspect-square flex items-center justify-center bg-slate-100/50 rounded-xl overflow-hidden transition-colors group-hover:bg-slate-200/50">
+                <div className="relative w-full aspect-square flex items-center justify-center bg-zinc-50 rounded-2xl overflow-hidden transition-colors group-hover:bg-zinc-100">
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="scale-[0.4] origin-center transition-transform duration-500 group-hover:scale-[0.45] group-hover:rotate-2">
+                    <div className="scale-[0.4] origin-center transition-all duration-500 group-hover:scale-[0.45] group-hover:rotate-1 shadow-2xl">
                       <FrameCanvas 
-                        image={preset.url} 
+                        images={[preset.url]} 
                         settings={{ ...DEFAULT_SETTINGS, ...preset.preset } as FrameSettings} 
                         isExporting={false}
                       />
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-slate-700 font-medium">
-                  {preset.name}
+                <div className="flex items-center justify-between mt-2">
+                  <div className="font-medium text-zinc-900 tracking-tight text-lg">
+                    {preset.name}
+                  </div>
+                  <ArrowRight className="w-5 h-5 text-zinc-300 group-hover:text-zinc-900 transition-colors group-hover:translate-x-1 duration-300" />
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 mt-16 text-slate-500 text-sm font-medium">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.8 }}
+          className="flex flex-wrap items-center justify-center gap-8 mt-24 text-zinc-400 text-sm font-medium tracking-wide uppercase"
+        >
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-green-500" />
-            100% Free
+            <Check className="w-4 h-4 text-zinc-300" />
+            Browser-based
           </div>
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-green-500" />
+            <Check className="w-4 h-4 text-zinc-300" />
             No Watermarks
           </div>
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-green-500" />
+            <Check className="w-4 h-4 text-zinc-300" />
             High Quality Export
           </div>
-          <div className="flex items-center gap-2">
-            <Smartphone className="w-4 h-4 text-slate-400" />
-            Works on Mobile
-          </div>
-        </div>
-      </main>
+        </motion.div>
+      </motion.main>
     </div>
   );
 }

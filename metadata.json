@@ -1,6 +1,6 @@
 {
-  "name": "Photo Stamp",
-  "description": "Convert photos into beautiful stamp-style frames directly in the browser.",
+  "name": "Frameify",
+  "description": "Convert photos into beautiful framed images directly in the browser.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

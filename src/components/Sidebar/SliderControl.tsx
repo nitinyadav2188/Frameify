@@ -13,8 +13,8 @@ interface Props {
 export function SliderControl({ label, value, min, max, onChange, tooltip }: Props) {
   return (
     <div>
-      <div className="flex justify-between items-center mb-1">
-        <label className="text-[13px] text-slate-700 flex items-center gap-1.5">
+      <div className="flex justify-between items-center mb-2">
+        <label className="text-[13px] text-slate-700 font-medium flex items-center gap-1.5">
           {label}
           {tooltip && (
             <Tooltip content={tooltip}>
@@ -22,9 +22,7 @@ export function SliderControl({ label, value, min, max, onChange, tooltip }: Pro
             </Tooltip>
           )}
         </label>
-        <span className="text-[13px] text-slate-700">
-          {value}px
-        </span>
+        <span className="text-xs text-slate-500 font-medium tabular-nums">{value}</span>
       </div>
       <input
         type="range"
@@ -32,7 +30,7 @@ export function SliderControl({ label, value, min, max, onChange, tooltip }: Pro
         max={max}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="slider"
+        className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
       />
     </div>
   );

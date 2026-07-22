@@ -1,14 +1,14 @@
 export type BorderStyle = 
-  | 'stamp' 
-  | 'vintage' 
+  | 'polaroid' 
   | 'film' 
-  | 'rounded' 
-  | 'classic' 
-  | 'dotted' 
-  | 'scalloped' 
-  | 'polaroid';
+  | 'museum' 
+  | 'glass' 
+  | 'neon' 
+  | 'brutalist' 
+  | 'stamp' 
+  | 'torn';
 
-export type BackgroundType = 'white' | 'black' | 'transparent' | 'custom';
+export type BackgroundType = 'white' | 'black' | 'transparent' | 'custom' | 'pattern';
 
 export interface TextOverlay {
   enabled: boolean;
@@ -23,12 +23,19 @@ export interface TextOverlay {
 export interface FrameSettings {
   borderStyle: BorderStyle;
   borderColor: string;
-  borderWidth: number;
-  borderRadius: number;
+  frameWidth: number;
+  framePadding: number;
+  frameRadius: number;
+  shadowIntensity: number;
   backgroundType: BackgroundType;
   customBackgroundColor: string;
-  padding: number;
-  shadow: boolean;
-  shadowIntensity: number;
+  backgroundPattern?: string;
   textOverlay: TextOverlay;
+  // Image Adjustments
+  imageBrightness?: number;
+  imageContrast?: number;
+  imageSaturation?: number;
+  imageBlur?: number;
+  imageSepia?: number;
+  imageGrayscale?: number;
 }
