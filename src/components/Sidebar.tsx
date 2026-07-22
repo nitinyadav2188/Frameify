@@ -6,6 +6,7 @@ import { BackgroundSelector } from './Sidebar/BackgroundSelector';
 import { SliderControl } from './Sidebar/SliderControl';
 import { Tooltip } from './Tooltip';
 import { TextOverlayControls } from './Sidebar/TextOverlayControls';
+import { ImageFilterPresets } from './Sidebar/ImageFilterPresets';
 
 interface SidebarProps {
   settings: FrameSettings;
@@ -89,6 +90,10 @@ export function Sidebar({ settings, setSettings }: SidebarProps) {
 
       <div className="p-5 border-b border-slate-200">
         <h3 className="font-semibold text-slate-500 text-xs uppercase mb-4">Image Adjustments</h3>
+        <ImageFilterPresets 
+          settings={settings}
+          onChange={(newSettings) => setSettings((prev) => ({ ...prev, ...newSettings }))}
+        />
         <div className="space-y-4">
           <SliderControl
             label="Brightness"

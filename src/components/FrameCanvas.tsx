@@ -125,7 +125,11 @@ export function FrameCanvas({ image, images, settings, isExporting, isPreview = 
   };
 
   return (
-    <div className={cn("relative p-12 flex items-center justify-center", settings.borderStyle === 'film' ? "gap-0" : "gap-8")}>
+    <div className={cn(
+      "relative flex items-center justify-center", 
+      settings.borderStyle === 'film' ? "gap-0" : "gap-8",
+      isPreview ? "p-4" : "p-12"
+    )}>
       {imageList.map((imgSrc, idx) => (
         <div 
           key={idx}

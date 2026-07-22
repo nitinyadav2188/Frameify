@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { ImagePlus, Sparkles, Check, ArrowRight } from 'lucide-react';
+import { ImagePlus, Sparkles, Check, ArrowRight, UploadCloud, SlidersHorizontal, Download } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { FrameSettings } from '../types';
 import { FrameCanvas } from './FrameCanvas';
@@ -81,7 +81,7 @@ const PRESETS = [
   },
   {
     name: "Gallery Museum",
-    url: "https://images.unsplash.com/photo-1518382473007-8e6f7dfa74d2?auto=format&fit=crop&w=600&q=80",
+    url: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=600&q=80",
     preset: {
       borderStyle: 'museum' as const,
       borderColor: '#ffffff',
@@ -227,30 +227,63 @@ export function Home({ onImagesUpload }: HomeProps) {
           <div className="absolute inset-0 bg-gradient-to-b from-zinc-50/0 to-zinc-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
         </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full mt-24 max-w-4xl"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            <div className="flex flex-col gap-3">
-              <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-900 font-bold font-display">1</div>
-              <h3 className="text-xl font-semibold text-zinc-900">Upload Images</h3>
-              <p className="text-zinc-500 font-light leading-relaxed">Drag and drop your photos into the dropzone above, or click to select them from your device. You can upload multiple images at once.</p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-900 font-bold font-display">2</div>
-              <h3 className="text-xl font-semibold text-zinc-900">Customize Style</h3>
-              <p className="text-zinc-500 font-light leading-relaxed">Choose from pre-made templates or manually adjust borders, padding, colors, shadows, and image filters to get the exact look you want.</p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-900 font-bold font-display">3</div>
-              <h3 className="text-xl font-semibold text-zinc-900">Export & Share</h3>
-              <p className="text-zinc-500 font-light leading-relaxed">Download your perfectly framed high-resolution image to your device instantly, with no watermarks.</p>
-            </div>
+        <div className="w-full mt-32 max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-bold tracking-tight text-zinc-900 mb-4 font-display">How it works</h2>
+            <p className="text-zinc-500 font-light text-lg">Three simple steps to perfect framing</p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="group flex flex-col gap-5 p-8 rounded-3xl bg-white border border-zinc-200 hover:border-zinc-900 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-900 group-hover:bg-zinc-900 group-hover:text-white transition-colors duration-300">
+                <UploadCloud className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-zinc-900 mb-2">1. Upload Images</h3>
+                <p className="text-zinc-500 font-light leading-relaxed">Drag and drop your photos into the dropzone above, or click to select them from your device. You can upload multiple images at once.</p>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="group flex flex-col gap-5 p-8 rounded-3xl bg-white border border-zinc-200 hover:border-zinc-900 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-900 group-hover:bg-zinc-900 group-hover:text-white transition-colors duration-300">
+                <SlidersHorizontal className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-zinc-900 mb-2">2. Customize Style</h3>
+                <p className="text-zinc-500 font-light leading-relaxed">Choose from pre-made templates or manually adjust borders, padding, colors, shadows, and image filters to get the exact look you want.</p>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="group flex flex-col gap-5 p-8 rounded-3xl bg-white border border-zinc-200 hover:border-zinc-900 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-900 group-hover:bg-zinc-900 group-hover:text-white transition-colors duration-300">
+                <Download className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-zinc-900 mb-2">3. Export & Share</h3>
+                <p className="text-zinc-500 font-light leading-relaxed">Download your perfectly framed high-resolution image to your device instantly, with no watermarks.</p>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
